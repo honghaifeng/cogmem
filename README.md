@@ -278,6 +278,9 @@ cogmem/
 │   ├── llm_client.py      # LLMClient: OpenAI-compatible multi-channel client
 │   ├── search_utils.py    # Chinese keyword extraction & LIKE search
 │   └── prompts.py         # Bilingual extraction prompts
+├── data/
+│   ├── clongeval_zh.jsonl # Chinese evaluation dataset (70 conv, 358 Q)
+│   └── locomo10_en.json   # English evaluation dataset (10 conv, 1,542 Q)
 ├── examples/
 │   ├── basic_usage.py     # Quick start example
 │   └── chinese_demo.py     # Chinese conversation demo
@@ -292,10 +295,102 @@ cogmem/
 
 ## Evaluation Datasets
 
-| Dataset | Language | Conversations | Questions | Categories |
-|---------|----------|:------------:|:---------:|:----------:|
-| CLongEval | Chinese | 70 | 358 | Factual, Multi-hop, Temporal |
-| LoCoMo | English | 10 | 1,542 | Single-hop, Multi-hop, Temporal, Adversarial |
+CogMem is evaluated on two bilingual long-conversation benchmarks. Both datasets are included in this repository under `data/` for self-contained reproducibility.
+
+### Chinese: CLongEval
+
+| Item | Detail |
+|------|--------|
+| File | `data/clongeval_zh.jsonl` |
+| Format | JSONL (one conversation per line) |
+| Conversations | 70 |
+| Questions | 358 |
+| Categories | Single-hop, Multi-hop, Temporal Reasoning, Conversation Understanding |
+| Size | ~15 MB |
+| Download | `wget https://github.com/honghaifeng/cogmem/raw/main/data/clongeval_zh.jsonl` |
+
+**Description**: CLongEval is a Chinese long-conversation benchmark designed to evaluate LLM long-context capabilities in Chinese. Each conversation simulates multi-turn dialogue between a user and an AI assistant, with questions testing factual recall, multi-hop reasoning, temporal reasoning, and dialogue comprehension. The dataset uses `small.jsonl` (the compact subset) which contains 70 conversations with 358 annotated questions.
+
+**Data structure** (each JSONL line):
+```json
+{
+  "idx": 0,
+  "conversation": [...],
+  "qa_pairs": [
+    {
+      "question": "用户在4月25号这天和你分享过什么？",
+      "answer": "...",
+      "type": "time.query"  // single-hop, multi-hop, temporal, etc.
+    }
+  ]
+}
+```
+
+### English: LoCoMo
+
+| Item | Detail |
+|------|--------|
+| File | `data/locomo10_en.json` |
+| Format | JSON (array of conversation objects) |
+| Conversations | 10 |
+| Questions | 1,542 |
+| Categories | Single-hop, Multi-hop, Temporal, Adversarial |
+| Size | ~2.7 MB |
+| Download | `wget https://github.com/honghaifeng/cogmem/raw/main/data/locomo10_en.json` |
+
+**Description**: LoCoMo (Long-Context Multi-Modal Output) is an English long-conversation benchmark for evaluating long-term memory systems. Each conversation contains 600+ turns of natural dialogue between two speakers, with annotated questions across four categories: single-hop (direct fact recall), multi-hop (cross-reference multiple memories), temporal (time-dependent reasoning), and adversarial (questions designed to trigger false memories).
+
+**Data structure**:
+```json
+[
+  {
+    "conversation_id": 0,
+    "session": [...],
+    "qa_pairs": [
+      {
+        "question": "What did Alice say about her new job?",
+        "answer": "...",
+        "category": "single-hop"  // multi-hop, temporal, adversarial
+      }
+    ]
+  }
+]
+```
+
+### Using the Datasets
+
+```python
+import json
+
+# Load CLongEval (Chinese, JSONL)
+clongeval = []
+with open("data/clongeval_zh.jsonl", "r", encoding="utf-8") as f:
+    for line in f:
+        clongeval.append(json.loads(line))
+print(f"CLongEval: {len(clongeval)} conversations, {sum(len(c['qa_pairs']) for c in clongeval)} questions")
+
+# Load LoCoMo (English, JSON)
+with open("data/locomo10_en.json", "r", encoding="utf-8") as f:
+    locomo = json.load(f)
+print(f"LoCoMo: {len(locomo)} conversations, {sum(len(c['qa_pairs']) for c in locomo)} questions")
+```
+
+### Running Evaluations
+
+```bash
+# CLongEval (Chinese, 70 conversations)
+python -m cogmem.eval --dataset clongeval --data data/clongeval_zh.jsonl
+
+# LoCoMo (English, 10 conversations)
+python -m cogmem.eval --dataset locomo --data data/locomo10_en.json
+```
+
+### Dataset Sources
+
+| Dataset | Original Source | Paper |
+|---------|----------------|-------|
+| CLongEval | [CLongEval GitHub](https://github.com/zqx-star/CLongEval) | CLongEval: A Chinese Long-Context Evaluation Benchmark for LLMs |
+| LoCoMo | [LoCoMo GitHub](https://github.com/snap-research/locomo) | LoCoMo: Long-Context Memory Evaluation (Snap Research) |
 
 ## Citation
 
