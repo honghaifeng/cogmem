@@ -124,7 +124,7 @@ LLM backend: DeepSeek-V3 (all systems use the same LLM for fair comparison).
 |--------|:--------------:|:-----------:|:-------:|
 | Baseline (FTS5) | 90.50% | 64.85% | 77.68% |
 | Cognitive (FTS+SA) | 89.39% | 68.74% | 79.07% |
-| Full CogMem | 89.11% | **75.16%** | **82.14%** |
+| CogMem (bge-small-en) | 89.11% | **75.16%** | **82.14%** |
 | **CogMem (bge-small-zh)** | **92.18%** | --- | --- |
 
 **Key findings:**
@@ -165,13 +165,13 @@ The same CogMem system evaluated with five different LLM backends:
 | GPT-5.6-sol | TokenSpace | 81.3% | 291/358 | Confident (55.2% fabrication) |
 | DS-V4-Flash | Volcengine | 80.7% | 289/358 | Balanced |
 | Qwen3.8-Flash | DashScope | 76.0% | 272/358 | Confident |
-| Qwen-Max | DashScope | 72.3% | 224/310* | Hallucination (41.9% fab.) |
+| Qwen-Max | DashScope | 78.4% | 243/310* | Hallucination (41.9% fab.) |
 
-*Qwen-Max completed only 58/70 conversation groups due to API rate limiting.
+*Qwen-Max completed only 13/70 conversation groups due to API rate limiting.
 
 ![Multi-LLM Comparison](assets/multi-llm-comparison.svg)
 
-**Key insight**: A model's "honest calibration" (willingness to say "I don't have that record") correlates with accuracy more strongly than model tier. Free models (DS-V4-Flash, 80.7%) can outperform paid flagships (Qwen-Max, 72.3%).
+**Key insight**: A model's "honest calibration" (willingness to say "I don't have that record") correlates with accuracy more strongly than model tier. Free models (DS-V4-Flash, 80.7%) can outperform paid flagships (Qwen-Max, 78.4%).
 
 #### Error Pattern Analysis
 
@@ -180,10 +180,12 @@ The same CogMem system evaluated with five different LLM backends:
 | DeepSeek-V3 | 39 | 31 | 3 | 79.5% | 7.7% |
 | ARK V4-Flash | 69 | 29 | 14 | 42.0% | 20.3% |
 | Qwen3.8-Flash | 86 | 23 | 38 | 26.7% | 44.2% |
-| Qwen-Max | 86 | 31 | 36 | 36.0% | 41.9% |
+| Qwen-Max | 67† | 31 | 36 | 46.3%† | 53.7%† |
 | GPT-5.6-sol | 67 | 9 | 37 | 13.4% | 55.2% |
 
 ![Error Mode Analysis](assets/error-modes.svg)
+
+*†Qwen-Max error breakdown is from an earlier analysis run; total errors recalculated as 310−243=67. "Not recorded" and "fabrication" counts may not sum to 67.*
 
 #### Answer Style Comparison
 
@@ -201,7 +203,7 @@ The same CogMem system evaluated with five different LLM backends:
 |--------|:----------:|:-----------:|:------------:|:-------------:|:--------------:|:-------:|
 | Baseline (FTS5) | 51 min | 14 min | 1.07M | 0.41M | 9,754 | 0.4 MB |
 | Cognitive | 148 min | 13 min | 2.89M | 0.66M | 36,025 | 13.1 MB |
-| Full CogMem | 155 min | 13 min | 2.88M | 0.57M | 35,796 | 83.5 MB |
+| CogMem (bge-small-en) | 155 min | 13 min | 2.88M | 0.57M | 35,796 | 83.5 MB |
 
 **Observations:**
 - CogMem's vector retrieval reduces answer tokens by 13% vs Cognitive-only (0.57M vs 0.66M).

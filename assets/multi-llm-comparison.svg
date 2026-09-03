@@ -54,14 +54,14 @@
   <text x="475" y="378" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Qwen3.8-Flash</text>
   <text x="475" y="392" text-anchor="middle" font-size="10" fill="#64748b">DashScope · 免费</text>
 
-  <!-- Qwen-Max 72.3% -->
-  <rect x="550" y="143" width="70" height="217" rx="6" fill="url(#barQwenM)"/>
-  <text x="585" y="137" text-anchor="middle" font-size="14" font-weight="700" fill="#7c3aed">72.3%</text>
+  <!-- Qwen-Max 78.4% -->
+  <rect x="550" y="125" width="70" height="235" rx="6" fill="url(#barQwenM)"/>
+  <text x="585" y="119" text-anchor="middle" font-size="14" font-weight="700" fill="#7c3aed">78.4%</text>
   <text x="585" y="378" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Qwen-Max</text>
   <text x="585" y="392" text-anchor="middle" font-size="10" fill="#64748b">DashScope · 付费</text>
 
   <!-- Insight box -->
   <rect x="80" y="420" width="560" height="32" rx="8" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.5"/>
   <text x="96" y="440" font-size="11.5" font-weight="600" fill="#c2410c">关键发现：</text>
-  <text x="160" y="440" font-size="11" fill="#9a3412">免费模型 DS-V4-Flash (80.7%) 超越付费旗舰 Qwen-Max (72.3%) — 诚实校准比模型等级更重要</text>
+  <text x="160" y="440" font-size="11" fill="#9a3412">免费模型 DS-V4-Flash (80.7%) 超越付费旗舰 Qwen-Max (78.4%) — 诚实校准比模型等级更重要</text>
 </svg>
