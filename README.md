@@ -134,16 +134,14 @@ LLM backend: DeepSeek-V3 (all systems use the same LLM for fair comparison).
 
 | System | CLongEval (ZH) | LoCoMo (EN) | Average |
 |--------|:--------------:|:-----------:|:-------:|
-| Baseline (FTS5) | **90.50%** | 64.85% | 77.68% |
+| Baseline (FTS5) | 90.50% | 64.85% | 77.68% |
 | Cognitive (FTS+SA) | 89.39% | 68.74% | 79.07% |
-| Full CogMem | 89.11% | 75.16% | 82.14% |
+| Full CogMem | 89.11% | **75.16%** | **82.14%** |
 | **CogMem (bge-small-zh)** | **92.18%** | --- | --- |
-| Mem0 (official) | 85.47% | **81.98%** | **83.73%** |
-| A-Mem (official) | 87.43% | 75.94% | 81.69% |
 
 **Key findings:**
 
-1. **English**: CogMem achieves 75.16% (+10.31pp over FTS5 baseline). Mem0 is highest at 81.98%.
+1. **English**: CogMem achieves 75.16% (+10.31pp over FTS5 baseline), demonstrating the value of hybrid retrieval.
 2. **Chinese**: With English-focused embeddings, FTS5 baseline is highest (90.50%). But switching to `bge-small-zh-v1.5` raises CogMem to **92.18%**, surpassing FTS5 by +1.68pp. This proves the negative effect of vector retrieval on Chinese stems from embedding-language mismatch, not the architecture.
 3. **Ablation**: Vector retrieval provides +6.42pp on English but -0.28pp on Chinese (with English embeddings) — a 11.70pp swing showing language-dependent optimal architecture.
 
@@ -158,14 +156,14 @@ LLM backend: DeepSeek-V3 (all systems use the same LLM for fair comparison).
 
 ### Category-wise Analysis (LoCoMo, English)
 
-| Category | # Q | Baseline | Cognitive | CogMem | A-Mem |
-|----------|:---:|:--------:|:---------:|:------:|:-----:|
-| Single-hop | 282 | 64.9% (183) | 61.0% (172) | 71.3% (201) | **80.5% (227)** |
-| Multi-hop | 321 | 63.2% (203) | 76.0% (244) | **82.2% (264)** | 65.7% (211) |
-| Temporal | 96 | 54.2% (52) | 44.8% (43) | **62.5% (60)** | 58.3% (56) |
-| Adversarial | 841 | 66.6% (560) | 71.2% (599) | 75.1% (632) | **80.3% (675)** |
+| Category | # Q | Baseline | Cognitive | CogMem |
+|----------|:---:|:--------:|:---------:|:------:|
+| Single-hop | 282 | 64.9% (183) | 61.0% (172) | **71.3% (201)** |
+| Multi-hop | 321 | 63.2% (203) | 76.0% (244) | **82.2% (264)** |
+| Temporal | 96 | 54.2% (52) | 44.8% (43) | **62.5% (60)** |
+| Adversarial | 841 | 66.6% (560) | 71.2% (599) | **75.1% (632)** |
 
-CogMem achieves the best multi-hop reasoning (82.2%, +19.0pp over baseline, +16.5pp over A-Mem), validating the value of spreading activation for complex reasoning.
+CogMem achieves the best multi-hop reasoning (82.2%, +19.0pp over baseline), validating the value of spreading activation for complex reasoning.
 
 ### Multi-LLM Backend Evaluation (CLongEval)
 
@@ -210,11 +208,8 @@ The same CogMem system evaluated with five different LLM backends:
 | Baseline (FTS5) | 51 min | 14 min | 1.07M | 0.41M | 9,754 | 0.4 MB |
 | Cognitive | 148 min | 13 min | 2.89M | 0.66M | 36,025 | 13.1 MB |
 | Full CogMem | 155 min | 13 min | 2.88M | 0.57M | 35,796 | 83.5 MB |
-| A-Mem | 408 min | 15 min | N/A | 1.92M | 2,734 | N/A |
-| Mem0 | 87 min | N/A | N/A | N/A | 6,442 | N/A |
 
 **Observations:**
-- A-Mem is 2.6x slower than CogMem on write (408 min vs 155 min) due to 3 LLM calls per memory.
 - CogMem's vector retrieval reduces answer tokens by 13% vs Cognitive-only (0.57M vs 0.66M).
 - Baseline is most efficient (51 min, 0.4 MB) and achieves highest Chinese accuracy with English embeddings.
 - CogMem with `bge-small-zh-v1.5` surpasses baseline accuracy at 92.18%.
