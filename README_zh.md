@@ -96,6 +96,18 @@ baseline.add("I met Bob at the conference yesterday.", user_id="user1")
 results = baseline.search("Who did I meet?", user_id="user1")
 ```
 
+### 使用认知记忆（FTS + 扩散激活，无向量）
+
+```python
+from cogmem import CognitiveMemory
+
+# FTS5 + 实体-关系扩散激活，不含向量嵌入
+# 适用于无 SentenceTransformer 的环境，或用于消融实验评估向量检索的贡献
+cognitive = CognitiveMemory(db_path="cognitive.db")
+cognitive.add("I met Bob at the conference yesterday.", user_id="user1")
+results = cognitive.search("Who did I meet?", user_id="user1")
+```
+
 ### 多通道 LLM 故障转移
 
 ```python
@@ -264,6 +276,17 @@ BaselineMemory(
 
 与 `CogMem` 相同的 API，但仅使用 FTS5 检索（无向量或扩散激活）。
 
+### `CognitiveMemory`
+
+```python
+CognitiveMemory(
+    db_path="cognitive.db",
+    llm_client=None,
+)
+```
+
+与 `CogMem` 相同的 API 和实体-关系提取逻辑，但**不含向量嵌入**。仅使用 FTS5 + 扩散激活。这是 `BaselineMemory`（仅 FTS5）和完整 `CogMem`（FTS5 + 向量 + 扩散激活）之间的中间消融配置。
+
 ## 项目结构
 
 ```
@@ -271,6 +294,7 @@ cogmem/
 ├── cogmem/
 │   ├── __init__.py        # 包导出
 │   ├── memory.py          # CogMem: 三路径混合检索
+│   ├── cognitive.py       # CognitiveMemory: FTS + 扩散激活（无向量）
 │   ├── baseline.py        # BaselineMemory: 仅 FTS5 基线
 │   ├── llm_client.py      # LLMClient: OpenAI 兼容多通道客户端
 │   ├── search_utils.py    # 中文关键词提取 & LIKE 搜索

@@ -6,8 +6,9 @@ and graph-based spreading activation.
 """
 
 from .memory import CogMem
+from .cognitive import CognitiveMemory
 from .baseline import BaselineMemory
 from .llm_client import LLMClient
 
 __version__ = "0.1.0"
-__all__ = ["CogMem", "BaselineMemory", "LLMClient"]
+__all__ = ["CogMem", "CognitiveMemory", "BaselineMemory", "LLMClient"]

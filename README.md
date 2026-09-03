@@ -96,6 +96,19 @@ baseline.add("I met Bob at the conference yesterday.", user_id="user1")
 results = baseline.search("Who did I meet?", user_id="user1")
 ```
 
+### Using Cognitive Memory (FTS + Spreading Activation, no vector)
+
+```python
+from cogmem import CognitiveMemory
+
+# FTS5 + entity-relation spreading activation, without vector embeddings
+# Useful for environments without SentenceTransformer or to evaluate
+# the contribution of vector retrieval via ablation
+cognitive = CognitiveMemory(db_path="cognitive.db")
+cognitive.add("I met Bob at the conference yesterday.", user_id="user1")
+results = cognitive.search("Who did I meet?", user_id="user1")
+```
+
 ### Multi-Channel LLM Failover
 
 ```python
@@ -264,6 +277,17 @@ BaselineMemory(
 
 Same API as `CogMem` but with FTS5-only retrieval (no vector or spreading activation).
 
+### `CognitiveMemory`
+
+```python
+CognitiveMemory(
+    db_path="cognitive.db",
+    llm_client=None,
+)
+```
+
+Same API and entity-relation extraction as `CogMem`, but **without vector embeddings**. Uses FTS5 + spreading activation only. This is the intermediate ablation configuration between `BaselineMemory` (FTS5 only) and full `CogMem` (FTS5 + Vector + Spreading Activation).
+
 ## Project Structure
 
 ```
@@ -271,6 +295,7 @@ cogmem/
 ├── cogmem/
 │   ├── __init__.py        # Package exports
 │   ├── memory.py          # CogMem: three-path hybrid retrieval
+│   ├── cognitive.py       # CognitiveMemory: FTS + spreading activation (no vector)
 │   ├── baseline.py        # BaselineMemory: FTS5-only baseline
 │   ├── llm_client.py      # LLMClient: OpenAI-compatible multi-channel client
 │   ├── search_utils.py    # Chinese keyword extraction & LIKE search
