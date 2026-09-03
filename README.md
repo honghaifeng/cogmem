@@ -8,32 +8,7 @@ CogMem maintains three parallel memory structures — flat text fragments with F
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    CogMem Architecture                      │
-├─────────────────────────────────────────────────────────┤
-│                                                            │
-│  Memory Storage                                            │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │
-│  │ Flat Fragments│  │ Entity-Rel   │  │  Vector      │    │
-│  │ (FTS5 index)  │  │ Network      │  │  Embeddings  │    │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘    │
-│         │                 │                 │              │
-│  ┌──────▼───────┐  ┌──────▼───────┐  ┌──────▼───────┐    │
-│  │ Path 1:      │  │ Path 3:      │  │ Path 2:      │    │
-│  │ FTS5 Keyword │  │ Spreading    │  │ Vector       │    │
-│  │ Search       │  │ Activation   │  │ Similarity   │    │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘    │
-│         │                 │                 │              │
-│         └─────────────────┼─────────────────┘              │
-│                           │                                │
-│                  ┌────────▼───────┐                       │
-│                  │ Weighted Fusion │                       │
-│                  │ & Deduplication │                       │
-│                  └────────────────┘                       │
-│                                                            │
-└─────────────────────────────────────────────────────────┘
-```
+![CogMem Architecture](assets/architecture.svg)
 
 **Three retrieval paths:**
 
@@ -158,6 +133,8 @@ LLM backend: DeepSeek-V3 (all systems use the same LLM for fair comparison).
 2. **Chinese**: With English-focused embeddings, FTS5 baseline is highest (90.50%). But switching to `bge-small-zh-v1.5` raises CogMem to **92.18%**, surpassing FTS5 by +1.68pp. This proves the negative effect of vector retrieval on Chinese stems from embedding-language mismatch, not the architecture.
 3. **Ablation**: Vector retrieval provides +6.42pp on English but -0.28pp on Chinese (with English embeddings) — a 11.70pp swing showing language-dependent optimal architecture.
 
+![Ablation Results](assets/ablation-results.svg)
+
 ### Ablation Study
 
 | Configuration | Components | CLongEval | LoCoMo |
@@ -190,9 +167,11 @@ The same CogMem system evaluated with five different LLM backends:
 | Qwen3.8-Flash | DashScope | 76.0% | 272/358 | Confident |
 | Qwen-Max | DashScope | 72.3% | 224/310* | Hallucination (41.9% fab.) |
 
-*Qwen-Max completed 58/70 conversations due to API rate limits.
+*Qwen-Max completed only 58/70 conversation groups due to API rate limiting.
 
-**Key insight**: A model's "honesty calibration" (willingness to admit "I don't have that record") correlates more strongly with accuracy than model tier. Free models (DS-V4-Flash, 80.7%) can outperform paid flagships (Qwen-Max, 72.3%).
+![Multi-LLM Comparison](assets/multi-llm-comparison.svg)
+
+**Key insight**: A model's "honest calibration" (willingness to say "I don't have that record") correlates with accuracy more strongly than model tier. Free models (DS-V4-Flash, 80.7%) can outperform paid flagships (Qwen-Max, 72.3%).
 
 #### Error Pattern Analysis
 
@@ -203,6 +182,8 @@ The same CogMem system evaluated with five different LLM backends:
 | Qwen3.8-Flash | 86 | 23 | 38 | 26.7% | 44.2% |
 | Qwen-Max | 86 | 31 | 36 | 36.0% | 41.9% |
 | GPT-5.6-sol | 67 | 9 | 37 | 13.4% | 55.2% |
+
+![Error Mode Analysis](assets/error-modes.svg)
 
 #### Answer Style Comparison
 
@@ -303,6 +284,11 @@ cogmem/
 ├── data/
 │   ├── clongeval_zh.jsonl # Chinese evaluation dataset (70 conv, 358 Q)
 │   └── locomo10_en.json   # English evaluation dataset (10 conv, 1,542 Q)
+├── assets/
+│   ├── architecture.svg         # Three-path hybrid retrieval architecture
+│   ├── ablation-results.svg     # Ablation study bar chart
+│   ├── multi-llm-comparison.svg # Multi-LLM backend comparison
+│   └── error-modes.svg           # Error pattern analysis
 ├── examples/
 │   ├── basic_usage.py     # Quick start example
 │   └── chinese_demo.py     # Chinese conversation demo

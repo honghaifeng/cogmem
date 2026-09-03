@@ -1,0 +1,67 @@
+<svg viewBox="0 0 720 460" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2f7"/>
+    </linearGradient>
+    <linearGradient id="barDS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#059669"/></linearGradient>
+    <linearGradient id="barGPT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
+    <linearGradient id="barARK" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient>
+    <linearGradient id="barQwenF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f472b6"/><stop offset="1" stop-color="#db2777"/></linearGradient>
+    <linearGradient id="barQwenM" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+  </defs>
+
+  <rect width="720" height="460" rx="16" fill="url(#bg4)"/>
+  <text x="360" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">多 LLM 后端准确率对比（CLongEval 中文）</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" fill="#64748b">同一 CogMem 系统 · 仅更换 LLM 后端 · 公平比较</text>
+
+  <!-- Y axis -->
+  <line x1="80" y1="80" x2="80" y2="360" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="80" y1="360" x2="680" y2="360" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <text x="72" y="365" text-anchor="end" font-size="10" fill="#94a3b8">0%</text>
+  <text x="72" y="290" text-anchor="end" font-size="10" fill="#94a3b8">25%</text>
+  <text x="72" y="215" text-anchor="end" font-size="10" fill="#94a3b8">50%</text>
+  <text x="72" y="140" text-anchor="end" font-size="10" fill="#94a3b8">75%</text>
+  <text x="72" y="85" text-anchor="end" font-size="10" fill="#94a3b8">100%</text>
+
+  <line x1="80" y1="290" x2="680" y2="290" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="215" x2="680" y2="215" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="140" x2="680" y2="140" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- DeepSeek-V3 89.1% (best) -->
+  <rect x="110" y="93" width="70" height="267" rx="6" fill="url(#barDS)"/>
+  <text x="145" y="87" text-anchor="middle" font-size="14" font-weight="700" fill="#059669">89.1%</text>
+  <text x="145" y="378" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">DeepSeek-V3</text>
+  <text x="145" y="392" text-anchor="middle" font-size="10" fill="#64748b">付费</text>
+  <text x="145" y="406" text-anchor="middle" font-size="10" fill="#059669" font-weight="600">★ 最佳</text>
+
+  <!-- GPT-5.6-sol 81.3% -->
+  <rect x="220" y="116" width="70" height="244" rx="6" fill="url(#barGPT)"/>
+  <text x="255" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#2563eb">81.3%</text>
+  <text x="255" y="378" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">GPT-5.6-sol</text>
+  <text x="255" y="392" text-anchor="middle" font-size="10" fill="#64748b">TokenSpace</text>
+
+  <!-- ARK V4-Flash 80.7% -->
+  <rect x="330" y="118" width="70" height="242" rx="6" fill="url(#barARK)"/>
+  <text x="365" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#d97706">80.7%</text>
+  <text x="365" y="378" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">DS-V4-Flash</text>
+  <text x="365" y="392" text-anchor="middle" font-size="10" fill="#64748b">火山引擎 · 免费</text>
+
+  <!-- Qwen3.8-Flash 76.0% -->
+  <rect x="440" y="132" width="70" height="228" rx="6" fill="url(#barQwenF)"/>
+  <text x="475" y="126" text-anchor="middle" font-size="14" font-weight="700" fill="#db2777">76.0%</text>
+  <text x="475" y="378" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Qwen3.8-Flash</text>
+  <text x="475" y="392" text-anchor="middle" font-size="10" fill="#64748b">DashScope · 免费</text>
+
+  <!-- Qwen-Max 72.3% -->
+  <rect x="550" y="143" width="70" height="217" rx="6" fill="url(#barQwenM)"/>
+  <text x="585" y="137" text-anchor="middle" font-size="14" font-weight="700" fill="#7c3aed">72.3%</text>
+  <text x="585" y="378" text-anchor="middle" font-size="11" font-weight="600" fill="#1e293b">Qwen-Max</text>
+  <text x="585" y="392" text-anchor="middle" font-size="10" fill="#64748b">DashScope · 付费</text>
+
+  <!-- Insight box -->
+  <rect x="80" y="420" width="560" height="32" rx="8" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="96" y="440" font-size="11.5" font-weight="600" fill="#c2410c">关键发现：</text>
+  <text x="160" y="440" font-size="11" fill="#9a3412">免费模型 DS-V4-Flash (80.7%) 超越付费旗舰 Qwen-Max (72.3%) — 诚实校准比模型等级更重要</text>
+</svg>
