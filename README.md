@@ -1,5 +1,7 @@
 # CogMem: Cognitive Memory Network
 
+**English** | [中文](README_zh.md)
+
 **A hybrid memory system for LLM agents that bridges symbolic retrieval, neural retrieval, and graph-based spreading activation.**
 
 CogMem maintains three parallel memory structures — flat text fragments with FTS5 indexing, an entity-relation knowledge network with spreading activation, and dense vector embeddings — and fuses them through weighted combination for robust long-term conversation memory.
@@ -287,6 +289,7 @@ cogmem/
 ├── tests/
 │   └── test_memory.py     # Unit tests
 ├── README.md
+├── README_zh.md
 ├── LICENSE
 ├── requirements.txt
 ├── pyproject.toml
